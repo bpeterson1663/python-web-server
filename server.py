@@ -13,7 +13,16 @@ def html_page(page_name):
 def submit_form():
     if request.method == 'POST':
         data = request.form.to_dict()
-        print(data)
+        write_to_file(data)
         return redirect('thankyou')
     else:
         return "something went wrong"
+    
+    
+def write_to_file(data):
+    with open('database.txt', mode='a') as database:
+        email = data["email"]
+        subject = data["subject"]
+        message = data["message"]
+        
+        database.write(f'\n{email},{subject},{message}')
