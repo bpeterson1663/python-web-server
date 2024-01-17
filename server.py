@@ -13,11 +13,14 @@ def html_page(page_name):
 @app.route('/submit_form', methods=['POST', 'GET'])
 def submit_form():
     if request.method == 'POST':
-        data = request.form.to_dict()
-        write_to_csv(data)
-        return redirect('thankyou')
+        try:
+            data = request.form.to_dict()
+            write_to_csv(data)
+            return redirect('thankyou')
+        except:
+            return 'did not save to database'
     else:
-        return "something went wrong"
+        return "something went wrong, try again later"
     
 def write_to_csv(data):
     with open('database.csv', newline="", mode="a") as database:
